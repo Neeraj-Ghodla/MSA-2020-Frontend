@@ -233,16 +233,18 @@ export const fetchSearchResult = async (
   } catch (error) {}
 };
 
-// export const register = async (
-//   email: string,
-//   password: string
-// ): Promise<IUser> => {
-//   return await fetch("http://localhost:3000/users/register", {
-//     method: "POST",
-//     "Content-Type": "application/json",
-//     body: JSON.stringify({ email, password }),
-//   });
-// };
+export const register = async (
+  email: string,
+  password: string
+): Promise<IUser> => {
+  return await (
+    await fetch("http://localhost:3000/users/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+  ).json();
+};
 
 export const login = async (
   email: string,
