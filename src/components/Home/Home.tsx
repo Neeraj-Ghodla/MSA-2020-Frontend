@@ -220,46 +220,6 @@ export default function Home() {
       <Slider {...settings}>{topRatedList}</Slider>
 
       <hr style={{ borderTop: "1px solid #5a606b" }} className="mt-5" />
-
-      <div className="row mt-3">
-        <div className="col-md-8 col-sm-6">
-          <h3>ABOUT ME</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, quos
-            labore. Aut, consectetur. Quo iste, nesciunt libero nostrum
-            explicabo officia ad, vero, ipsum veniam pariatur voluptatem rerum!
-            Quia, quae praesentium?
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit,
-            fuga ad error praesentium asperiores quo tempore vero quisquam
-            pariatur! Necessitatibus unde dolor aut autem consectetur distinctio
-            eius error facere obcaecati?
-          </p>
-          <ul className="lsit-inline">
-            <li className="list-inline-item">
-              <a style={{ color: "#f4c10" }} href="/">
-                <i className="fab fa-facebook"> </i>
-              </a>
-            </li>
-            <li className="list-inline-item">
-              <a style={{ color: "#f4c10" }} href="/">
-                <i className="fab fa-google"> </i>
-              </a>
-            </li>
-            <li className="list-inline-item">
-              <a style={{ color: "#f4c10" }} href="/">
-                <i className="fab fa-youtube"> </i>
-              </a>
-            </li>
-            <li className="list-inline-item">
-              <a style={{ color: "#f4c10" }} href="/">
-                <i className="fab fa-instagram"> </i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
   );
 }

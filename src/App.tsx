@@ -11,6 +11,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import { IUser } from "./service/types";
 import { login } from "./service/index";
 
+import "./App.css";
+
 export default function App() {
   const [show, setShow] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
@@ -81,7 +83,7 @@ export default function App() {
 
   const navBar = (
     <div>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="light" variant="light">
         <Navbar.Brand className="d-flex col-md-2">
           <Link to={"/"}>
             <img
@@ -107,7 +109,8 @@ export default function App() {
             }}
           />
           <Button
-            variant="outline-light"
+            variant="outline-dark"
+            id="submit"
             type="sumbit"
             onClick={(e) => {
               e.preventDefault();
@@ -116,6 +119,7 @@ export default function App() {
           >
             Search
           </Button>
+          <Button onClick={() => switchTheme()}>Switch Theme</Button>
         </Form>
         <div className="col-md-2 d-flex justify-content-around">
           {user ? (
@@ -137,7 +141,6 @@ export default function App() {
               </Dropdown.Menu>
             </Dropdown>
           ) : (
-            // <Button>Logout</Button>
             <>
               <Button onClick={handleShow}>Login</Button>
               <Button>SignUp</Button>{" "}
@@ -167,11 +170,73 @@ export default function App() {
     </main>
   );
 
+  const Theme = (
+    // <div
+    // style={{
+    //   width: "100%",
+    //   position: "fixed",
+    //   top: "50vh",
+    //   left: "0px",
+    //   zIndex: 500,
+    // }}
+    // >
+    <div
+      style={{
+        width: "100%",
+        position: "fixed",
+        top: "50vh",
+        left: "0px",
+      }}
+      className="custom-control custom-switch"
+    >
+      <input
+        type="checkbox"
+        className="custom-control-input"
+        id="customSwitch1"
+      />
+      <label
+        className="custom-control-label"
+        htmlFor="customSwitch1"
+        onClick={() => switchTheme()}
+      ></label>
+    </div>
+    // </div>
+  );
+
+  const switchTheme = () => {
+    const root = document.getElementById("root") as HTMLDivElement;
+    const nav = document.getElementsByTagName("nav")[0];
+    const btn = document.getElementById("submit") as HTMLButtonElement;
+    if (root.classList.contains("dark-theme")) {
+      // remove light theme
+      nav.classList.remove("navbar-dark");
+      nav.classList.remove("bg-dark");
+      btn.classList.remove("btn-outline-light");
+      // add dark theme
+      nav.classList.add("navbar-light");
+      nav.classList.add("bg-light");
+      btn.classList.add("btn-outline-dark");
+    } else {
+      // remove dark theme
+      nav.classList.remove("navbar-light");
+      nav.classList.remove("bg-light");
+      btn.classList.remove("btn-outline-dark");
+
+      // remove light theme
+      nav.classList.add("navbar-dark");
+      nav.classList.add("bg-dark");
+      btn.classList.add("btn-outline-light");
+    }
+    // toggle dark theme
+    root.classList.toggle("dark-theme");
+  };
+
   return (
     <div>
       {navBar}
       {LoginModal}
       {Main}
+      {Theme}
     </div>
   );
 }
