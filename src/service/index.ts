@@ -260,26 +260,32 @@ export const login = async (
 };
 
 export const likeMovie = async (
+  userID: string,
   movieID: string,
-  userID: number
 ): Promise<IUser> => {
   return await (
     await fetch("http://localhost:3000/users/liked", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
       body: JSON.stringify({ userID, movieID }),
     })
   ).json();
 };
 
 export const dislikeMovie = async (
-  userID: number,
+  userID: string,
   movieID: string
 ): Promise<IUser> => {
   return await (
     await fetch("http://localhost:3000/users/disliked", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
       body: JSON.stringify({ userID, movieID }),
     })
   ).json();
@@ -290,7 +296,7 @@ export const fetchComments = async (
 ): Promise<Array<string>> => {
   return (
     await (
-      await fetch(`http://localhost:3000/movie/comments?movieID=${movieID}`, {
+      await fetch(`http://localhost:3000/movie?movieID=${movieID}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
