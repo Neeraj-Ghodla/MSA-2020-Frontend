@@ -15,7 +15,7 @@ export default function Dashboard({ user }: IDashboardProps) {
   const [disliked, setDisliked] = useState<(IData | undefined)[]>([]);
   useEffect(() => {
     if (user) {
-      const { email, likedMovies, dislikedMovies } = user;
+      const { username, likedMovies, dislikedMovies } = user;
 
       const fetchAPI = async () => {
         likedMovies.map(async (movieID) => {
@@ -35,7 +35,7 @@ export default function Dashboard({ user }: IDashboardProps) {
   // if (user) const { likedMovies, dislikedMovies } = user;
   if (!user) return null;
   else {
-    const { email, likedMovies, dislikedMovies } = user;
+    const { username } = user;
     const settings = {
       infinite: false,
       speed: 1000,
@@ -96,15 +96,27 @@ export default function Dashboard({ user }: IDashboardProps) {
           style={{ flexDirection: "column" }}
         >
           <div className="col">
-            <h1 style={{ textAlign: "center" }}>{email}</h1>
+            <h1 style={{ textAlign: "center" }}>Hey {username}</h1>
           </div>
           <div className="col">
             <h1>Liked Movies</h1>
-            <Slider {...settings}>{likedMoviesList}</Slider>
+            {liked.length ? (
+              <Slider {...settings}>{likedMoviesList}</Slider>
+            ) : (
+              <p style={{ textAlign: "center" }}>
+                You haven't like any movies yet.
+              </p>
+            )}
           </div>
           <div className="col">
             <h1>Disliked Movies</h1>
-            <Slider {...settings}>{dislikedMoviesList}</Slider>
+            {disliked.length ? (
+              <Slider {...settings}>{dislikedMoviesList}</Slider>
+            ) : (
+              <p style={{ textAlign: "center" }}>
+                You haven't like any movies yet.
+              </p>
+            )}
           </div>
         </div>
       </div>
