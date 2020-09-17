@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import ReactStars from "react-rating-stars-component";
 import { Carousel } from "react-bootstrap";
 import Slider from "react-slick";
 
@@ -17,16 +16,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Home.css";
 
-import {
-  IData,
-  IVideo,
-  ICast,
-  IPerson,
-  IGenre,
-  IResult,
-  IUser,
-  IMovie,
-} from "../../service/types";
+import { IData, IPerson, IGenre } from "../../service/types";
 
 export default function Home() {
   const [nowPlaying, setNowPlaying] = useState<Array<IData> | undefined>(
@@ -98,11 +88,6 @@ export default function Home() {
         <div className="mt-3">
           <p style={{ fontWeight: "bolder" }}>{item.title}</p>
           <p>Rated: {item.rating}</p>
-          {/* <ReactStars
-            count={item.rating}
-            size={20}
-            color1={"#f4c10f"}
-          ></ReactStars> */}
         </div>
       </div>
     );
@@ -138,11 +123,6 @@ export default function Home() {
         <div className="mt-3">
           <p style={{ fontWeight: "bolder" }}>{item.title}</p>
           <p>Rated: {item.rating}</p>
-          {/* <ReactStars
-            count={item.rating}
-            size={20}
-            color1={"#f4c10f"}
-          ></ReactStars> */}
         </div>
       </div>
     );
