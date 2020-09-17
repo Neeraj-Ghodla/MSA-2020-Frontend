@@ -7,7 +7,6 @@ import {
   FormControl,
   Button,
   Modal,
-  Dropdown,
   Nav,
   NavDropdown,
 } from "react-bootstrap";
@@ -33,6 +32,7 @@ export default function App() {
   const [password, setPassword] = useState<string>("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [currentTheme, setCurrentTheme] = useState("light");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
 
   useEffect(
@@ -88,14 +88,15 @@ export default function App() {
                 setMsg("Fill all the fields");
                 setShow(true);
               } else {
+                // setIsLoading(true);
                 const user = await login(email, password);
+                // setIsLoading(false);
                 if (user) {
                   setUser(user);
                   localStorage.setItem("user", JSON.stringify(user));
                   handleCloseLogin();
                   setMsg("User logged in");
                   setShow(true);
-                  // history.push("/dashboard");
                 } else {
                   setMsg("Unauthorized");
                   setShow(true);
@@ -229,7 +230,7 @@ export default function App() {
             variant="outline-dark"
             id="submit"
             type="sumbit"
-            className="my-sm-3"
+            className="my-3"
             onClick={(e) => {
               e.preventDefault();
               setQuery(
@@ -347,6 +348,24 @@ export default function App() {
       {toast}
       {LoginModal}
       {SignupModal}
+      {/* {isLoading ? (
+        <div
+          className="d-flex justify-content-center w-100"
+          style={{
+            position: "fixed",
+            top: "50vh",
+            left: "0",
+          }}
+        >
+          <div
+            style={{ width: "100px", height: "100px" }}
+            className="spinner-border ml-auto mr-auto"
+            role="status"
+          >
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      ) : null} */}
       {Main}
     </>
   );
