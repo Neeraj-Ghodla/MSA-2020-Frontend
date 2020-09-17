@@ -210,15 +210,16 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
           <div className="carousel-center">
             <i
               style={{ fontSize: 95, color: "#f4c10f", cursor: "pointer" }}
-              className="far fa-play-circle"
+              className="fas fa-play"
               onClick={() => {
+                console.log("clicked");
                 if (video) setIsOpen(true);
               }}
             ></i>
           </div>
           <div
             style={{ textAlign: "center", fontSize: 35 }}
-            className="carouse-caption"
+            className="carousel-caption"
           >
             {detail?.title}
           </div>
