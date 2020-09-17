@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link, useHistory } from "react-router-dom";
+import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
+import Toast from "react-bootstrap/Toast";
 import {
   Form,
   FormControl,
@@ -17,14 +18,18 @@ import SearchResult from "./components/SearchResult/SearchResult";
 import Dashboard from "./components/Dashboard/Dashboard";
 
 import { IUser } from "./service/types";
-import { login } from "./service/index";
+import { login, register } from "./service/index";
 
 import "./App.css";
 
 export default function App() {
   const [show, setShow] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showSignup, setShowSignup] = useState<boolean>(false);
+  const [msg, setMsg] = useState<string>("");
   const [query, setQuery] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [currentTheme, setCurrentTheme] = useState("light");
@@ -44,11 +49,14 @@ export default function App() {
     [user]
   );
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
+
+  const handleCloseSignup = () => setShowSignup(false);
+  const handleShowSignup = () => setShowSignup(true);
 
   const LoginModal = (
-    <Modal show={show} onHide={handleClose} centered size="lg">
+    <Modal show={showLogin} onHide={handleCloseLogin} centered size="lg">
       <Modal.Header closeButton>
         <Modal.Title style={{ color: "black" }}>Login</Modal.Title>
       </Modal.Header>
@@ -76,11 +84,23 @@ export default function App() {
           <Button
             variant="primary"
             onClick={async () => {
-              const user = await login(email, password);
-              setUser(user);
-              localStorage.setItem("user", JSON.stringify(user));
-              handleClose();
-              history.push("/dashboard");
+              if (!(email && password)) {
+                setMsg("Fill all the fields");
+                setShow(true);
+              } else {
+                const user = await login(email, password);
+                if (user) {
+                  setUser(user);
+                  localStorage.setItem("user", JSON.stringify(user));
+                  handleCloseLogin();
+                  setMsg("User logged in");
+                  setShow(true);
+                  // history.push("/dashboard");
+                } else {
+                  setMsg("Unauthorized");
+                  setShow(true);
+                }
+              }
             }}
           >
             Submit
@@ -90,109 +110,89 @@ export default function App() {
     </Modal>
   );
 
-  let navBar = (
-    <Navbar bg="light" variant="light">
-      <Navbar.Brand className="d-flex col-md-2">
-        <Link to={"/"}>
-          <img
-            alt="TMDB"
-            src={
-              "https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
-            }
-            width="50"
-            height="50"
-            className="d-inline-block align-top"
-          />
-        </Link>
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Form inline>
-          <FormControl
-            id="searchbar"
-            style={{ width: "80%" }}
-            type="text"
-            placeholder="Search"
-            className="mr-3"
-            onChange={(e) => {
-              setQuery(e.target.value);
-            }}
-          />
-          <Button
-            variant="outline-dark"
-            id="submit"
-            type="sumbit"
-            onClick={(e) => {
-              e.preventDefault();
-              if (query) history.push(`/search/${query}`);
-            }}
-          >
-            Search
-          </Button>
-        </Form>
-        <Nav className="mr-auto">
-          <Nav.Link href="#">
-            <Button onClick={handleShow}>Login</Button>
-          </Nav.Link>
-          <Nav.Link href="#">
-            <Button>SignUp</Button>
-          </Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-      {/* <Form inline className="col-md-8 d-flex justify-content-center">
-          <FormControl
-            id="searchbar"
-            style={{ width: "80%" }}
-            type="text"
-            placeholder="Search"
-            className="mr-3"
-            onChange={(e) => {
-              setQuery(e.target.value);
-            }}
-          />
-          <Button
-            variant="outline-dark"
-            id="submit"
-            type="sumbit"
-            onClick={(e) => {
-              e.preventDefault();
-              if (query) history.push(`/search/${query}`);
-            }}
-          >
-            Search
-          </Button>
-          <Button onClick={() => switchTheme()}>Switch Theme</Button>
-        </Form>
-        <div className="col-md-2 d-flex justify-content-around">
-          {user ? (
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Dropdown Button
-              </Dropdown.Toggle>
+  const SignupModal = (
+    <Modal show={showSignup} onHide={handleCloseSignup} centered size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title style={{ color: "black" }}>SignUp</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group controlId="formBasicUsername">
+            <Form.Label style={{ color: "black" }}>Username</Form.Label>
+            <Form.Control
+              type="text"
+              name="username"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
 
-              <Dropdown.Menu>
-                <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    setUser(undefined);
-                    localStorage.setItem("user", "");
-                  }}
-                >
-                  Logout
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          ) : (
-            <>
-              <Button onClick={handleShow}>Login</Button>
-              <Button>SignUp</Button>{" "}
-            </>
-          )}
-        </div> */}
-    </Navbar>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label style={{ color: "black" }}>Email address</Form.Label>
+            <Form.Control
+              type="text"
+              name="email"
+              placeholder="Enter email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label style={{ color: "black" }}>Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Button
+            variant="primary"
+            onClick={async () => {
+              if (!(username && email && password)) {
+                setMsg("You need fill all the fields");
+                setShow(true);
+              } else {
+                const user = await register(email, username, password);
+                if ("err" in user) {
+                  setMsg(user.err);
+                  setShow(true);
+                } else {
+                  handleCloseSignup();
+                  setMsg("User registered successfull!");
+                  setShow(true);
+                }
+              }
+            }}
+          >
+            Submit
+          </Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 
-  navBar = (
+  const toast = (
+    <Toast
+      style={{
+        position: "absolute",
+        top: "20px",
+        right: "40vw",
+        fontSize: "20px",
+        backgroundColor: "black",
+        color: "white",
+        zIndex: 100,
+      }}
+      onClose={() => setShow(false)}
+      show={show}
+      delay={3000}
+      autohide
+    >
+      <Toast.Body>{msg}</Toast.Body>
+    </Toast>
+  );
+
+  const navBar = (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="#">
         <Link to={"/"}>
@@ -257,10 +257,12 @@ export default function App() {
           )}
           {!user ? (
             <>
-              <Nav.Link href="#" onClick={handleShow}>
+              <Nav.Link href="#" onClick={handleShowLogin}>
                 Login
               </Nav.Link>
-              <Nav.Link href="#">Signup</Nav.Link>
+              <Nav.Link href="#" onClick={handleShowSignup}>
+                Signup
+              </Nav.Link>
             </>
           ) : (
             <NavDropdown title="User" id="basic-nav-dropdown">
@@ -273,6 +275,7 @@ export default function App() {
                 onClick={() => {
                   setUser(undefined);
                   localStorage.removeItem("user");
+                  history.push("/");
                 }}
               >
                 Logout
@@ -296,9 +299,14 @@ export default function App() {
         <Route path="/search/:query" component={SearchResult} exact />
         <Route
           path="/dashboard"
-          component={() => <Dashboard user={user} />}
+          component={() =>
+            user ? <Dashboard user={user} /> : <Redirect to={"/"} />
+          }
           exact
         />
+        <Route path="/">
+          <Redirect to={"/"} />
+        </Route>
       </Switch>
     </main>
   );
@@ -336,7 +344,9 @@ export default function App() {
   return (
     <>
       {navBar}
+      {toast}
       {LoginModal}
+      {SignupModal}
       {Main}
     </>
   );
