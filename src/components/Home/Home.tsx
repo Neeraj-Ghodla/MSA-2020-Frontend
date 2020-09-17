@@ -149,7 +149,7 @@ export default function Home() {
   });
 
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 1000,
     slidesToShow: 4,
     slidesToScroll: 4,
