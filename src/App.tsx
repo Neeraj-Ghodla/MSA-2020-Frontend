@@ -272,7 +272,6 @@ export default function App() {
               <NavDropdown.Item
                 onClick={() => {
                   setUser(undefined);
-                  // localStorage.setItem("user", "");
                   localStorage.removeItem("user");
                 }}
               >
@@ -335,10 +334,10 @@ export default function App() {
   };
 
   return (
-    <div>
+    <>
       {navBar}
       {LoginModal}
       {Main}
-    </div>
+    </>
   );
 }
