@@ -69,7 +69,7 @@ export interface IResult {
 }
 
 export interface IUser {
-  _id: number;
+  _id: string;
   email: string;
   password: string;
   likedMovies: Array<string>;
