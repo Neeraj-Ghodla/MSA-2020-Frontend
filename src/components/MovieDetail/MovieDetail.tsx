@@ -207,10 +207,28 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
   });
 
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 1000,
     slidesToShow: 4,
     slidesToScroll: 4,
+    responsive: [
+      {
+        breakpoint: 992, // width to change options
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+    ],
   };
 
   return (
