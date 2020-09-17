@@ -7,8 +7,6 @@ import {
   IGenre,
   IResult,
   IUser,
-  IMovie,
-  IResponse,
   IDetail,
 } from "./types";
 
@@ -239,22 +237,28 @@ export const register = async (
   password: string
 ) => {
   return await (
-    await fetch("https://msa-2020-moviedb-backend.azurewebsites.net/users/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
-    })
+    await fetch(
+      "https://msa-2020-moviedb-backend.azurewebsites.net/users/register",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      }
+    )
   ).json();
 };
 
 export const login = async (email: string, password: string) => {
   try {
     return await (
-      await fetch("https://msa-2020-moviedb-backend.azurewebsites.net/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      })
+      await fetch(
+        "https://msa-2020-moviedb-backend.azurewebsites.net/users/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      )
     ).json();
   } catch (error) {
     return null;
@@ -266,14 +270,17 @@ export const likeMovie = async (
   movieID: string
 ): Promise<IUser> => {
   return await (
-    await fetch("https://msa-2020-moviedb-backend.azurewebsites.net/users/liked", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ userID, movieID }),
-    })
+    await fetch(
+      "https://msa-2020-moviedb-backend.azurewebsites.net/users/liked",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ userID, movieID }),
+      }
+    )
   ).json();
 };
 
@@ -282,14 +289,17 @@ export const dislikeMovie = async (
   movieID: string
 ): Promise<IUser> => {
   return await (
-    await fetch("https://msa-2020-moviedb-backend.azurewebsites.net/users/disliked", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ userID, movieID }),
-    })
+    await fetch(
+      "https://msa-2020-moviedb-backend.azurewebsites.net/users/disliked",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ userID, movieID }),
+      }
+    )
   ).json();
 };
 
@@ -298,10 +308,13 @@ export const fetchComments = async (
 ): Promise<Array<string>> => {
   return (
     await (
-      await fetch(`https://msa-2020-moviedb-backend.azurewebsites.net/movie?movieID=${movieID}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      })
+      await fetch(
+        `https://msa-2020-moviedb-backend.azurewebsites.net/movie?movieID=${movieID}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      )
     ).json()
   ).comments.reverse();
 };
