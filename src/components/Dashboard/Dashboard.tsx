@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchMovieDetail, likeMovie } from "../../service";
+import { fetchMovieDetail } from "../../service";
 import Slider from "react-slick";
 
-import { IData, IDetail, IUser } from "../../service/types";
+import { IData, IUser } from "../../service/types";
 import "./Dashboard.css";
 
 interface IDashboardProps {
@@ -15,7 +15,7 @@ export default function Dashboard({ user }: IDashboardProps) {
   const [disliked, setDisliked] = useState<(IData | undefined)[]>([]);
   useEffect(() => {
     if (user) {
-      const { username, likedMovies, dislikedMovies } = user;
+      const { likedMovies, dislikedMovies } = user;
 
       const fetchAPI = async () => {
         likedMovies.map(async (movieID) => {
@@ -30,7 +30,7 @@ export default function Dashboard({ user }: IDashboardProps) {
       };
       fetchAPI();
     }
-  }, []);
+  }, [user]);
 
   // if (user) const { likedMovies, dislikedMovies } = user;
   if (!user) return null;
