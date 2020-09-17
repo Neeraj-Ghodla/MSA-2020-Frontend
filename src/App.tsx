@@ -264,7 +264,11 @@ export default function App() {
             </>
           ) : (
             <NavDropdown title="User" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/dashboard">Dashboard</NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to={"/dashboard"} style={{ textDecoration: "none" }}>
+                  Dashboard
+                </Link>
+              </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={() => {
                   setUser(undefined);
