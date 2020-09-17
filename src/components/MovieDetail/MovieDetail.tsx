@@ -58,7 +58,8 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
   const [dislikeButtonColor, setDislikeButtonColor] = useState<string>("grey");
 
   useEffect(() => {
-    if (user && user.likedMovies.includes(movieID)) setLikeButtonColor("lightblue");
+    if (user && user.likedMovies.includes(movieID))
+      setLikeButtonColor("lightblue");
     else setLikeButtonColor("grey");
     if (user && user.dislikedMovies.includes(movieID))
       setDislikeButtonColor("lightblue");
@@ -358,7 +359,7 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
             {comments?.length ? (
               commentList
             ) : (
-              <p style={{ textAlign: "center", width: "100%" }}>
+              <p style={{ textAlign: "center", width: "100%", color: "black" }}>
                 No comments yet...
               </p>
             )}
