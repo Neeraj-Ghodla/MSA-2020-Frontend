@@ -235,33 +235,35 @@ export const fetchSearchResult = async (
 
 export const register = async (
   email: string,
+  username: string,
   password: string
-): Promise<IUser> => {
+) => {
   return await (
     await fetch("http://localhost:3000/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, email, password }),
     })
   ).json();
 };
 
-export const login = async (
-  email: string,
-  password: string
-): Promise<IUser> => {
-  return await (
-    await fetch("http://localhost:3000/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    })
-  ).json();
+export const login = async (email: string, password: string) => {
+  try {
+    return await (
+      await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
+    ).json();
+  } catch (error) {
+    return null;
+  }
 };
 
 export const likeMovie = async (
   userID: string,
-  movieID: string,
+  movieID: string
 ): Promise<IUser> => {
   return await (
     await fetch("http://localhost:3000/users/liked", {
