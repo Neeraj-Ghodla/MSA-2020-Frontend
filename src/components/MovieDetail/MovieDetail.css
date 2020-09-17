@@ -20,3 +20,7 @@
     font-size: 6vw !important;
   }
 }
+
+.col {
+  padding: 0 !important;
+}
