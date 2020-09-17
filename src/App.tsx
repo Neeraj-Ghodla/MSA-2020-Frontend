@@ -194,7 +194,7 @@ export default function App() {
   );
 
   const navBar = (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="md">
       <Navbar.Brand>
         <Link to={"/"}>
           <img
