@@ -32,7 +32,7 @@ export default function App() {
   const [password, setPassword] = useState<string>("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [currentTheme, setCurrentTheme] = useState("light");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
 
   useEffect(
@@ -195,7 +195,7 @@ export default function App() {
 
   const navBar = (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#">
+      <Navbar.Brand>
         <Link to={"/"}>
           <img
             alt="TMDB"
@@ -208,40 +208,8 @@ export default function App() {
           />
         </Link>
       </Navbar.Brand>
-      <Navbar.Toggle
-        className="dropdown-menu-right"
-        aria-controls="basic-navbar-nav"
-      />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Form className="ml-auto" inline>
-          <FormControl
-            id="searchbar"
-            type="text"
-            placeholder="Search"
-            className="mr-sm-2"
-            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              setQuery(
-                (document.getElementById("searchbar") as HTMLInputElement).value
-              );
-              if (query && e.key === "Enter") history.push(`/search/${query}`);
-            }}
-          />
-          <Button
-            variant="outline-dark"
-            id="submit"
-            type="sumbit"
-            className="my-3"
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery(
-                (document.getElementById("searchbar") as HTMLInputElement).value
-              );
-              if (query) history.push(`/search/${query}`);
-            }}
-          >
-            Search
-          </Button>
-        </Form>
+
+      <Navbar className="ml-auto pl-0 pr-0">
         <Nav>
           {currentTheme === "light" ? (
             <i
@@ -284,6 +252,42 @@ export default function App() {
             </NavDropdown>
           )}
         </Nav>
+      </Navbar>
+
+      <Navbar.Toggle
+        className="dropdown-menu-right"
+        aria-controls="basic-navbar-nav"
+      />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Form className="ml-auto" inline>
+          <FormControl
+            id="searchbar"
+            type="text"
+            placeholder="Search"
+            className="mr-sm-2"
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              setQuery(
+                (document.getElementById("searchbar") as HTMLInputElement).value
+              );
+              if (query && e.key === "Enter") history.push(`/search/${query}`);
+            }}
+          />
+          <Button
+            variant="outline-dark"
+            id="submit"
+            type="sumbit"
+            className="my-3"
+            onClick={(e) => {
+              e.preventDefault();
+              setQuery(
+                (document.getElementById("searchbar") as HTMLInputElement).value
+              );
+              if (query) history.push(`/search/${query}`);
+            }}
+          >
+            Search
+          </Button>
+        </Form>
       </Navbar.Collapse>
     </Navbar>
   );
