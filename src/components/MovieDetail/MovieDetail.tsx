@@ -54,15 +54,15 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
   const [comments, setComments] = useState<Array<string> | undefined>(
     undefined
   );
-  const [likeButtonColor, setLikeButtonColor] = useState<string>("white");
-  const [dislikeButtonColor, setDislikeButtonColor] = useState<string>("white");
+  const [likeButtonColor, setLikeButtonColor] = useState<string>("grey");
+  const [dislikeButtonColor, setDislikeButtonColor] = useState<string>("grey");
 
   useEffect(() => {
-    if (user && user.likedMovies.includes(movieID)) setLikeButtonColor("blue");
-    else setLikeButtonColor("white");
+    if (user && user.likedMovies.includes(movieID)) setLikeButtonColor("lightblue");
+    else setLikeButtonColor("grey");
     if (user && user.dislikedMovies.includes(movieID))
-      setDislikeButtonColor("blue");
-    else setDislikeButtonColor("white");
+      setDislikeButtonColor("lightblue");
+    else setDislikeButtonColor("grey");
   }, []);
 
   useEffect(() => {
@@ -92,23 +92,48 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
 
   const commentList = comments?.map((comment, index) => {
     return (
-      <p key={index} style={{ color: "black", border: "2px solid black" }}>
-        {comment}
-      </p>
+      <div className="d-flex">
+        <img
+          width="50"
+          height="100%"
+          className="pr-3"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAADcCAMAAADutHs3AAAABlBMVEX////m5ua54GxLAAACl0lEQVR4nO3cy1LDMBBE0fD/P01RFBUIjjQvdXukvltZ9tlAYlvK46NhDzYgktCohEYlNCqhUQmNSmhUQqMSGpXQqIRGJTSqavTjouJL1KKvwEvkZScbiovdNWcyiCvdFacxk6vY+ZO4yDXs7Cnc5Ap27gQhcp6dmh42J9WJ2Qlykh2fmzRn1OGpaXNCHZxZQE6wY/OKzFF1aFqZOaiOzCo0x9SBSaXmkNo/p9gcUbunlJsDau+MBWa/+gT0ErNb7Tt+kdmrdh2+zOxUe45eaPapd0cvNbvUm6MXmz3qvdHLzQ711miA2a7eGQ0xm9VC3wsNMlvVQt8KDTMb1UILnUQDzTa10EILLbTQQgsttNBCCy200DR0yxtboYXeDt3yqanQMHTLdy5Cw9At39j2RLdchdAT3XJlTU90y9ViPdEtV0D2RLdc1dtz/fQytQ9xxJ6AnuiW+1wWqN2CU/ZuFasD1z9nP2KhOnT1k/bY1rCjlz5s33haHb/wcb+FkFGnrqrf94C5eX+IjP8eWXKGzf1ERH6MV5GjbPpXU8z36VpyiH2He8TVN7YryH72XR6L9XwAueZR71qyi32nF0U93yP2fM1cuQoBRbayb7cuzwS6m9minh+CNhvU0yPw5rl6dgDDPFVPxjnmmXo8zDJP1MNRnnmsHg0yzUP1YIxrHqnfD7HNA/VeaLb4Ky+a7f3uADRb+5MHzbY+s6PZ0t9tjWY7/2ZDs5WvbYtmG/83R7OFV22JZvuuG6PZuncJjWqEZtvetxmaLRu1FZrtGrcRmq2atQ2abZq3CZotsiQ0qlc022NrAzRbY01oVO3RbIs9oVE90WyJJ6FRtUazHb6ERtUYzVZ4ExpVWzTb4E9oVEKjEloppVR9n/12QizsFE7aAAAAAElFTkSuQmCC"
+        />
+        <p
+          key={index}
+          style={{
+            color: "black",
+            border: "2px solid black",
+            padding: "10px",
+            borderRadius: "20px",
+            wordWrap: "break-word",
+            width: "auto",
+            boxSizing: "border-box",
+          }}
+        >
+          {comment}
+        </p>
+      </div>
     );
   });
 
   const likeMovieHandler = async (id: string) => {
-    if (localStorage.getItem("user")) {
-      const newUser = await likeMovie(movieID, user?._id as number);
-      await setUser(newUser);
+    let localUser = localStorage.getItem("user");
+    if (localUser) localUser = JSON.parse(localUser);
+    if (localUser) {
+      const newUser = await likeMovie((user as IUser)._id, movieID);
+      console.log(newUser);
+      setUser(newUser);
     }
   };
 
   const dislikeMovieHandler = async (id: string) => {
-    if (localStorage.getItem("user")) {
-      const newUser = dislikeMovie(user?._id as number, movieID);
-      await setUser(newUser);
+    let localUser = localStorage.getItem("user");
+    if (localUser) localUser = JSON.parse(localUser);
+    if (localUser) {
+      const newUser = await dislikeMovie((user as IUser)._id, movieID);
+      console.log(newUser);
+      setUser(newUser);
     }
   };
 
@@ -175,11 +200,6 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
         <div className="mt-3">
           <p style={{ fontWeight: "bolder" }}>{movie.title}</p>
           <p>Rated: {movie.rating}</p>
-          {/* <ReactStars
-            count={movie.rating}
-            size={20}
-            color1={"#f4c10f"}
-          ></ReactStars> */}
         </div>
       </div>
     );
@@ -209,7 +229,7 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
           />
           <div className="carousel-center">
             <i
-              style={{ fontSize: 95, color: "#f4c10f", cursor: "pointer" }}
+              style={{ fontSize: "10vw", color: "#f4c10f", cursor: "pointer" }}
               className="fas fa-play"
               onClick={() => {
                 console.log("clicked");
@@ -218,7 +238,7 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
             ></i>
           </div>
           <div
-            style={{ textAlign: "center", fontSize: 35 }}
+            style={{ textAlign: "center", fontSize: "3vw" }}
             className="carousel-caption"
           >
             {detail?.title}
@@ -229,20 +249,24 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
       <div className="row mt-3 ">
         <div className="col">
           <p style={{ color: "#5a606b", fontWeight: "bolder" }}>GENRE</p>
-          <AiFillLike
-            onClick={() => likeMovieHandler(movieID)}
-            style={{
-              fontSize: "50px",
-              color: likeButtonColor,
-            }}
-          />
-          <AiFillDislike
-            onClick={() => dislikeMovieHandler(movieID)}
-            style={{
-              fontSize: "50px",
-              color: dislikeButtonColor,
-            }}
-          />
+          {user ? (
+            <>
+              <AiFillLike
+                onClick={() => likeMovieHandler(movieID)}
+                style={{
+                  fontSize: "50px",
+                  color: likeButtonColor,
+                }}
+              />
+              <AiFillDislike
+                onClick={() => dislikeMovieHandler(movieID)}
+                style={{
+                  fontSize: "50px",
+                  color: dislikeButtonColor,
+                }}
+              />
+            </>
+          ) : null}
         </div>
       </div>
 
@@ -315,24 +339,32 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
         </div>
       </div>
 
-      <div className="row justify-content-end">
-        <textarea
-          id="comment"
-          style={{ width: "100%" }}
-          placeholder="Add your comment"
-        />
-        <button className="btn btn-primary my-3" onClick={addComment}>
-          Add Comment
-        </button>
-      </div>
+      {user ? (
+        <div className="row justify-content-end">
+          <textarea
+            id="comment"
+            style={{ width: "100%" }}
+            placeholder="Add your comment"
+          />
+          <button className="btn btn-primary my-3" onClick={addComment}>
+            Add Comment
+          </button>
+        </div>
+      ) : null}
 
       <div className="row">
-        <div style={{ width: "100%" }} className="card">
-          <div className="card-body">{commentList}</div>
+        <div className="card mb-3" style={{ width: "100%" }}>
+          <div className="card-body">
+            {comments?.length ? (
+              commentList
+            ) : (
+              <p style={{ textAlign: "center", width: "100%" }}>
+                No comments yet...
+              </p>
+            )}
+          </div>
         </div>
       </div>
-
-      <hr style={{ borderTop: "1px solid #5a606b" }} className="mt-5" />
     </div>
   );
 }
