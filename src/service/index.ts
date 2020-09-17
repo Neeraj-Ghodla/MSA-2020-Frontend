@@ -239,7 +239,7 @@ export const register = async (
   password: string
 ) => {
   return await (
-    await fetch("http://localhost:3000/users/register", {
+    await fetch("http://msa-2020-moviedb-backend.azurewebsites.net/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
@@ -250,7 +250,7 @@ export const register = async (
 export const login = async (email: string, password: string) => {
   try {
     return await (
-      await fetch("http://localhost:3000/users/login", {
+      await fetch("http://msa-2020-moviedb-backend.azurewebsites.net/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -266,7 +266,7 @@ export const likeMovie = async (
   movieID: string
 ): Promise<IUser> => {
   return await (
-    await fetch("http://localhost:3000/users/liked", {
+    await fetch("http://msa-2020-moviedb-backend.azurewebsites.net/users/liked", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -282,7 +282,7 @@ export const dislikeMovie = async (
   movieID: string
 ): Promise<IUser> => {
   return await (
-    await fetch("http://localhost:3000/users/disliked", {
+    await fetch("http://msa-2020-moviedb-backend.azurewebsites.net/users/disliked", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -298,7 +298,7 @@ export const fetchComments = async (
 ): Promise<Array<string>> => {
   return (
     await (
-      await fetch(`http://localhost:3000/movie?movieID=${movieID}`, {
+      await fetch(`http://msa-2020-moviedb-backend.azurewebsites.net/movie?movieID=${movieID}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -310,7 +310,7 @@ export const addComments = async (
   comment: string,
   movieID: string
 ): Promise<void> => {
-  await fetch("http://localhost:3000/movie/add", {
+  await fetch("http://msa-2020-moviedb-backend.azurewebsites.net/movie/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ comment, movieID }),
