@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
-import { Form, FormControl, Button, Modal, Dropdown } from "react-bootstrap";
+import {
+  Form,
+  FormControl,
+  Button,
+  Modal,
+  Dropdown,
+  Nav,
+  NavDropdown,
+} from "react-bootstrap";
 
 import Home from "./components/Home/Home";
 import MovieDetail from "./components/MovieDetail/MovieDetail";
@@ -19,6 +27,7 @@ export default function App() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
+  const [currentTheme, setCurrentTheme] = useState("light");
   const history = useHistory();
 
   useEffect(
@@ -81,23 +90,56 @@ export default function App() {
     </Modal>
   );
 
-  const navBar = (
-    <div>
-      <Navbar bg="light" variant="light">
-        <Navbar.Brand className="d-flex col-md-2">
-          <Link to={"/"}>
-            <img
-              alt="TMDB"
-              src={
-                "https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
-              }
-              width="50"
-              height="50"
-              className="d-inline-block align-top"
-            />
-          </Link>
-        </Navbar.Brand>
-        <Form inline className="col-md-8 d-flex justify-content-center">
+  let navBar = (
+    <Navbar bg="light" variant="light">
+      <Navbar.Brand className="d-flex col-md-2">
+        <Link to={"/"}>
+          <img
+            alt="TMDB"
+            src={
+              "https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
+            }
+            width="50"
+            height="50"
+            className="d-inline-block align-top"
+          />
+        </Link>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Form inline>
+          <FormControl
+            id="searchbar"
+            style={{ width: "80%" }}
+            type="text"
+            placeholder="Search"
+            className="mr-3"
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+          />
+          <Button
+            variant="outline-dark"
+            id="submit"
+            type="sumbit"
+            onClick={(e) => {
+              e.preventDefault();
+              if (query) history.push(`/search/${query}`);
+            }}
+          >
+            Search
+          </Button>
+        </Form>
+        <Nav className="mr-auto">
+          <Nav.Link href="#">
+            <Button onClick={handleShow}>Login</Button>
+          </Nav.Link>
+          <Nav.Link href="#">
+            <Button>SignUp</Button>
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+      {/* <Form inline className="col-md-8 d-flex justify-content-center">
           <FormControl
             id="searchbar"
             style={{ width: "80%" }}
@@ -146,9 +188,97 @@ export default function App() {
               <Button>SignUp</Button>{" "}
             </>
           )}
-        </div>
-      </Navbar>
-    </div>
+        </div> */}
+    </Navbar>
+  );
+
+  navBar = (
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="#">
+        <Link to={"/"}>
+          <img
+            alt="TMDB"
+            src={
+              "https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
+            }
+            width="50"
+            height="50"
+            className="d-inline-block align-top"
+          />
+        </Link>
+      </Navbar.Brand>
+      <Navbar.Toggle
+        className="dropdown-menu-right"
+        aria-controls="basic-navbar-nav"
+      />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Form className="ml-auto" inline>
+          <FormControl
+            id="searchbar"
+            type="text"
+            placeholder="Search"
+            className="mr-sm-2"
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              setQuery(
+                (document.getElementById("searchbar") as HTMLInputElement).value
+              );
+              if (query && e.key === "Enter") history.push(`/search/${query}`);
+            }}
+          />
+          <Button
+            variant="outline-dark"
+            id="submit"
+            type="sumbit"
+            className="my-sm-3"
+            onClick={(e) => {
+              e.preventDefault();
+              setQuery(
+                (document.getElementById("searchbar") as HTMLInputElement).value
+              );
+              if (query) history.push(`/search/${query}`);
+            }}
+          >
+            Search
+          </Button>
+        </Form>
+        <Nav>
+          {currentTheme === "light" ? (
+            <i
+              onClick={() => switchTheme()}
+              style={{ fontSize: "2rem", cursor: "pointer" }}
+              className="fas fa-moon px-3"
+            ></i>
+          ) : (
+            <i
+              onClick={() => switchTheme()}
+              style={{ fontSize: "2rem", cursor: "pointer" }}
+              className="fas fa-sun px-3"
+            ></i>
+          )}
+          {!user ? (
+            <>
+              <Nav.Link href="#" onClick={handleShow}>
+                Login
+              </Nav.Link>
+              <Nav.Link href="#">Signup</Nav.Link>
+            </>
+          ) : (
+            <NavDropdown title="User" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/dashboard">Dashboard</NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => {
+                  setUser(undefined);
+                  // localStorage.setItem("user", "");
+                  localStorage.removeItem("user");
+                }}
+              >
+                Logout
+              </NavDropdown.Item>
+            </NavDropdown>
+          )}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 
   const Main = (
@@ -170,44 +300,12 @@ export default function App() {
     </main>
   );
 
-  const Theme = (
-    // <div
-    // style={{
-    //   width: "100%",
-    //   position: "fixed",
-    //   top: "50vh",
-    //   left: "0px",
-    //   zIndex: 500,
-    // }}
-    // >
-    <div
-      style={{
-        width: "100%",
-        position: "fixed",
-        top: "50vh",
-        left: "0px",
-      }}
-      className="custom-control custom-switch"
-    >
-      <input
-        type="checkbox"
-        className="custom-control-input"
-        id="customSwitch1"
-      />
-      <label
-        className="custom-control-label"
-        htmlFor="customSwitch1"
-        onClick={() => switchTheme()}
-      ></label>
-    </div>
-    // </div>
-  );
-
   const switchTheme = () => {
     const root = document.getElementById("root") as HTMLDivElement;
     const nav = document.getElementsByTagName("nav")[0];
     const btn = document.getElementById("submit") as HTMLButtonElement;
     if (root.classList.contains("dark-theme")) {
+      setCurrentTheme("light");
       // remove light theme
       nav.classList.remove("navbar-dark");
       nav.classList.remove("bg-dark");
@@ -217,6 +315,7 @@ export default function App() {
       nav.classList.add("bg-light");
       btn.classList.add("btn-outline-dark");
     } else {
+      setCurrentTheme("dark");
       // remove dark theme
       nav.classList.remove("navbar-light");
       nav.classList.remove("bg-light");
@@ -236,7 +335,6 @@ export default function App() {
       {navBar}
       {LoginModal}
       {Main}
-      {Theme}
     </div>
   );
 }
