@@ -70,6 +70,7 @@ export interface IResult {
 
 export interface IUser {
   _id: string;
+  username: string;
   email: string;
   password: string;
   likedMovies: Array<string>;
