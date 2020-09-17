@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
-// import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
@@ -16,17 +15,7 @@ import {
   dislikeMovie,
 } from "../../service";
 
-import {
-  IData,
-  IVideo,
-  ICast,
-  IPerson,
-  IGenre,
-  IResult,
-  IUser,
-  IMovie,
-  IDetail,
-} from "../../service/types";
+import { IData, IVideo, ICast, IUser } from "../../service/types";
 
 import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
 import "./MovieDetail.css";
@@ -64,7 +53,7 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
     if (user && user.dislikedMovies.includes(movieID))
       setDislikeButtonColor("lightblue");
     else setDislikeButtonColor("grey");
-  }, []);
+  }, [user, movieID]);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -98,6 +87,7 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
           width="50"
           height="100%"
           className="pr-3"
+          alt="Comment"
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAADcCAMAAADutHs3AAAABlBMVEX////m5ua54GxLAAACl0lEQVR4nO3cy1LDMBBE0fD/P01RFBUIjjQvdXukvltZ9tlAYlvK46NhDzYgktCohEYlNCqhUQmNSmhUQqMSGpXQqIRGJTSqavTjouJL1KKvwEvkZScbiovdNWcyiCvdFacxk6vY+ZO4yDXs7Cnc5Ap27gQhcp6dmh42J9WJ2Qlykh2fmzRn1OGpaXNCHZxZQE6wY/OKzFF1aFqZOaiOzCo0x9SBSaXmkNo/p9gcUbunlJsDau+MBWa/+gT0ErNb7Tt+kdmrdh2+zOxUe45eaPapd0cvNbvUm6MXmz3qvdHLzQ711miA2a7eGQ0xm9VC3wsNMlvVQt8KDTMb1UILnUQDzTa10EILLbTQQgsttNBCCy200DR0yxtboYXeDt3yqanQMHTLdy5Cw9At39j2RLdchdAT3XJlTU90y9ViPdEtV0D2RLdc1dtz/fQytQ9xxJ6AnuiW+1wWqN2CU/ZuFasD1z9nP2KhOnT1k/bY1rCjlz5s33haHb/wcb+FkFGnrqrf94C5eX+IjP8eWXKGzf1ERH6MV5GjbPpXU8z36VpyiH2He8TVN7YryH72XR6L9XwAueZR71qyi32nF0U93yP2fM1cuQoBRbayb7cuzwS6m9minh+CNhvU0yPw5rl6dgDDPFVPxjnmmXo8zDJP1MNRnnmsHg0yzUP1YIxrHqnfD7HNA/VeaLb4Ky+a7f3uADRb+5MHzbY+s6PZ0t9tjWY7/2ZDs5WvbYtmG/83R7OFV22JZvuuG6PZuncJjWqEZtvetxmaLRu1FZrtGrcRmq2atQ2abZq3CZotsiQ0qlc022NrAzRbY01oVO3RbIs9oVE90WyJJ6FRtUazHb6ERtUYzVZ4ExpVWzTb4E9oVEKjEloppVR9n/12QizsFE7aAAAAAElFTkSuQmCC"
         />
         <p
