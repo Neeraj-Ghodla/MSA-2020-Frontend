@@ -216,10 +216,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* <div className="row mt-3">{topRatedList}</div> */}
       <Slider {...settings}>{topRatedList}</Slider>
-
-      <hr style={{ borderTop: "1px solid #5a606b" }} className="mt-5" />
     </div>
   );
 }
