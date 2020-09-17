@@ -60,7 +60,7 @@ export default function SearchResult({ match }: ISearchResultProps) {
     <div className="container">
       <div className="row mt-3">{searchResultsList}</div>
       {currentPage < totalPages ? (
-        <div className="row my-3 justify-content-center">
+        <div className="row mt-3 pb-3 justify-content-center">
           <button
             className="btn btn-primary"
             onClick={() => setCurrentPage((prev) => prev + 1)}
