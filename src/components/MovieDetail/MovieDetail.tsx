@@ -113,7 +113,6 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
     if (localUser) localUser = JSON.parse(localUser);
     if (localUser) {
       const newUser = await likeMovie((user as IUser)._id, movieID);
-      console.log(newUser);
       setUser(newUser);
     }
   };
@@ -123,7 +122,6 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
     if (localUser) localUser = JSON.parse(localUser);
     if (localUser) {
       const newUser = await dislikeMovie((user as IUser)._id, movieID);
-      console.log(newUser);
       setUser(newUser);
     }
   };
@@ -241,7 +239,6 @@ export default function MovieDetail({ user, setUser }: IMovieDetailProps) {
               style={{ fontSize: "10vw", color: "#f4c10f", cursor: "pointer" }}
               className="fas fa-play"
               onClick={() => {
-                console.log("clicked");
                 if (video) setIsOpen(true);
               }}
             ></i>
