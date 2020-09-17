@@ -35,3 +35,9 @@
   right: 0px;
   left: auto;
 }
+
+@media only screen and (max-width: 577px) {
+  #searchbar {
+    margin-top: 1rem;
+  }
+}
