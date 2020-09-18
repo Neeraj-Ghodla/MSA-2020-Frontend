@@ -320,12 +320,15 @@ export default function App() {
     const root = document.getElementById("root") as HTMLDivElement;
     const nav = document.getElementsByTagName("nav")[0];
     const btn = document.getElementById("submit") as HTMLButtonElement;
+    const footer = document.getElementById("footer") as HTMLElement;
     if (root.classList.contains("dark-theme")) {
       setCurrentTheme("light");
       // remove light theme
       nav.classList.remove("navbar-dark");
       nav.classList.remove("bg-dark");
       btn.classList.remove("btn-outline-light");
+      footer.style.backgroundColor = "white";
+      footer.style.color = "black";
       // add dark theme
       nav.classList.add("navbar-light");
       nav.classList.add("bg-light");
@@ -336,6 +339,8 @@ export default function App() {
       nav.classList.remove("navbar-light");
       nav.classList.remove("bg-light");
       btn.classList.remove("btn-outline-dark");
+      footer.style.backgroundColor = "rgb(21,28,38)";
+      footer.style.color = "white";
 
       // remove light theme
       nav.classList.add("navbar-dark");
