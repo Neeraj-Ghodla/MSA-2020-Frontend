@@ -4,7 +4,7 @@
 
 ### Features
 <li>Nodejs+Typescript+MongoDB Backend</li>
-<li>INT8 Support</li>
+<li>i18n Support</li>
 <li>Dark and Light Theme Support</li>
 <li>Authetication Support</li>
 <li>Like and Comment Feature</li>
