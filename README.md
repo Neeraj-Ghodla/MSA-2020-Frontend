@@ -1,4 +1,4 @@
-# Frontend from NZMSA 2020 General Stream
+# Frontend for NZMSA 2020 General Stream
 
 ### Features
 <li>Nodejs+Typescript+MongoDB Backend</li>
